@@ -1,0 +1,71 @@
+﻿# NOTE: To create new requestId execute the following in powershell:
+$requestId = [System.Guid]::NewGuid()
+$correlationId = [System.Guid]::NewGuid()
+
+##############
+Main use cases
+##############
+
+# Use case 1: Matching lookup call (201)
+
+$json = '{\"Service\":\"binlookup\",\"Activity\":\"activity1\"}'
+$json = '{\"Service\":\"binlookup\",\"Activity\":\"activity1\",\"ActivityDetail\":\"actdetail\"}'
+
+
+\"ActivityDetail\":\"act detail\"}'
+
+
+$json = '{\"MerchantId\":\"RYANAIR\",\"CardNumberBin\":407020}'
+C:\D\utilities\curl\bin\curl.exe -v -H 'Accept: application/json' -H 'Content-Type: application/json' -H "X-Request-Id: $requestId" -H "X-Correlation-Id: $correlationId" -X POST -d $json http://localhost:10002/api/logactivity
+C:\D\utilities\curl\bin\curl.exe -v -H 'Accept: application/json' -H 'Content-Type: application/json' -H "X-Request-Id: $requestId" -H "X-Correlation-Id: $correlationId" -X POST -d $json http://127.0.0.1:56352/api/logactivity
+
+
+C:\D\utilities\curl\bin\curl.exe -v -H 'Accept: application/json' -H 'Content-Type: application/json' -X GET -d http://localhost:10002/api/logactivity
+
+
+######################
+Useful redis commands
+######################
+Delete all keys in redis
+redis-cli FLUSHALL
+KEYS *
+GET binlookupresult:c4976eb4-38ff-4e93-a94d-e35ceb5b8c9b
+
+https://docs.redislabs.com/latest/rs/references/client_references/client_csharp/
+
+
+##########################################
+Things to talk about here in presentation
+##########################################
+Purpose, REST/JSON
+Redis database
+Dependency injection, use of Container
+Small microservices application, single responsibliity
+Test database
+Correlation
+Filters/Exceptions and Model state validation
+
+################
+docker commands
+################
+docker ps -a (list all containers)
+docker run --name binlookup -d -e "ASPNETCORE_ENVIRONMENT=container" scalable_microservices/reporting
+docker logs b910bd4
+docker images
+docker rm -f $(docker ps -a -q) (Remove all containers)
+
+####################
+kubernetes commands
+##################
+minikube docker-env | Invoke-Expression
+
+minikube start
+minikube dashboard
+
+docker build -t scalable_microservices/reporting .
+kubectl create -f deployment.yml
+
+kubectl expose deployment reporting-pod --type=LoadBalancer --port=10001
+minikube service reporting-pod
+
+kubectl logs reporting-pod-67fdc796d-8llq5 reporting

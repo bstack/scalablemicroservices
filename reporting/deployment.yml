@@ -1,0 +1,30 @@
+﻿---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reporting-pod
+  labels:
+    app: reporting
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reporting
+  template:
+    metadata:
+      labels:
+        app: reporting
+    spec:
+      containers:
+        - name: reporting
+          image: scalable_microservices/reporting
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "kubernetes"
+        - name: redis-server
+          image: redis
+          ports:
+            - containerPort: 6379

@@ -1,0 +1,36 @@
+# bin and obj directories at any depth
+bin/
+obj/
+
+# Visual studio files and folder
+*.sln.DotSettings.user
+*.csproj.user
+*.fsproj.user
+*.suo
+ide/.vs/
+
+# Visual studio code
+.vscode
+.ionide
+
+# Resharper files
+*resharper*
+_resharper*/
+
+# MS Test runner add-in results directories at any depth
+TestResults/
+
+# bin directories exclusions
+!lib/NUnit/bin/
+
+# JMeter log
+jmeter.log
+
+# nuget
+**/packages/*
+
+# tmp files
+*.tmp
+
+# Excel temporary
+~$*.xls*
