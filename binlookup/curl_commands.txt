@@ -1,0 +1,83 @@
+﻿# NOTE: To create new requestId execute the following in powershell:
+$requestId = [System.Guid]::NewGuid()
+$correlationId = [System.Guid]::NewGuid()
+
+##############
+Main use cases
+##############
+
+# Use case 1: Matching lookup call (201)
+$json = '{\"MerchantId\":\"RYANAIR\",\"CardNumberBin\":407020}'
+C:\D\utilities\curl\bin\curl.exe -v -H 'Accept: application/json' -H 'Content-Type: application/json' -H "X-Request-Id: $requestId" -H "X-Correlation-Id: $correlationId" -X POST -d $json http://localhost:10001/api/lookup
+C:\D\utilities\curl\bin\curl.exe -v -H 'Accept: application/json' -H 'Content-Type: application/json' -H "X-Request-Id: $requestId" -H "X-Correlation-Id: $correlationId" -X POST -d $json http://127.0.0.1:56352/api/lookup
+
+# Use case 1: Idempotent response (200)
+$json = '{\"MerchantId\":\"RYANAIR\",\"CardNumberBin\":407020}'
+C:\D\utilities\curl\bin\curl.exe -v -H 'Accept: application/json' -H 'Content-Type: application/json' -H "X-Request-Id: $requestId" -H "X-Correlation-Id: $correlationId" -X POST -d $json http://localhost:10001/api/lookup
+
+
+# Use case 2: No match lookup call (404)
+$json = '{\"MerchantId\":\"RYANAIR\",\"CardNumberBin\":888888}'
+C:\D\utilities\curl\bin\curl.exe -v -H 'Accept: application/json' -H 'Content-Type: application/json' -H "X-Request-Id: $requestId" -H "X-Correlation-Id: $correlationId" -X POST -d $json http://localhost:10001/api/lookup
+
+# Use case 3: No BINs in database causes internal server error (500)
+C:\D\utilities\curl\bin\curl.exe -v -H 'Accept: application/json' -H 'Content-Type: application/json' -H "X-Request-Id: $requestId" -H "X-Correlation-Id: $correlationId" -X POST -d $json http://localhost:10001/testmode/testhelper/dropdb
+$json = '{\"MerchantId\":\"RYANAIR\",\"CardNumberBin\":888888}'
+C:\D\utilities\curl\bin\curl.exe -v -H 'Accept: application/json' -H 'Content-Type: application/json' -H "X-Request-Id: $requestId" -H "X-Correlation-Id: $correlationId" -X POST -d $json http://localhost:10001/api/lookup
+
+
+######################
+Useful redis commands
+######################
+Delete all keys in redis
+redis-cli FLUSHALL
+KEYS *
+GET binlookupresult:c4976eb4-38ff-4e93-a94d-e35ceb5b8c9b
+
+https://docs.redislabs.com/latest/rs/references/client_references/client_csharp/
+
+
+##########################################
+Things to talk about here in presentation
+##########################################
+Purpose, REST/JSON
+Redis database
+Dependency injection, use of Container
+Small microservices application, single responsibliity
+Test database
+Correlation
+Filters/Exceptions and Model state validation
+
+
+##########################################
+TODO list
+##########################################
+Async publication of logs to rabbitmq
+Unit tests
+
+
+################
+docker commands
+################
+docker ps -a (list all containers)
+docker run --name binlookup -d -e "ASPNETCORE_ENVIRONMENT=container" scalable_microservices/binlookup
+docker logs b910bd4
+docker images
+docker rm -f $(docker ps -a -q) (Remove all containers)
+
+
+####################
+kubernetes commands
+##################
+minikube docker-env | Invoke-Expression
+
+minikube start
+minikube dashboard
+
+docker build -t scalable_microservices/binlookup .
+kubectl create -f deployment.yml
+
+kubectl expose deployment binlookup-pod --type=LoadBalancer --port=10001
+minikube service binlookup-pod
+
+kubectl logs binlookup-pod-67fdc796d-8llq5 binlookup

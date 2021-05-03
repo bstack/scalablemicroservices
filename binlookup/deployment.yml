@@ -1,0 +1,30 @@
+﻿---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: binlookup-pod
+  labels:
+    app: binlookup
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: binlookup
+  template:
+    metadata:
+      labels:
+        app: binlookup
+    spec:
+      containers:
+        - name: binlookup
+          image: scalable_microservices/binlookup
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "kubernetes"
+        - name: redis-server
+          image: redis
+          ports:
+            - containerPort: 6379
