@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\D\\softarch_msc\\scalable_microservices\\main_project\\src\\binlookup\\binlookup.csproj": {}
+    "C:\\D\\softarch_msc\\scalable_microservices\\main_project\\src\\scalablemicroservices\\binlookup\\binlookup.csproj": {}
   },
   "projects": {
-    "C:\\D\\softarch_msc\\scalable_microservices\\main_project\\src\\binlookup\\binlookup.csproj": {
+    "C:\\D\\softarch_msc\\scalable_microservices\\main_project\\src\\scalablemicroservices\\binlookup\\binlookup.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\D\\softarch_msc\\scalable_microservices\\main_project\\src\\binlookup\\binlookup.csproj",
+        "projectUniqueName": "C:\\D\\softarch_msc\\scalable_microservices\\main_project\\src\\scalablemicroservices\\binlookup\\binlookup.csproj",
         "projectName": "binlookup",
-        "projectPath": "C:\\D\\softarch_msc\\scalable_microservices\\main_project\\src\\binlookup\\binlookup.csproj",
+        "projectPath": "C:\\D\\softarch_msc\\scalable_microservices\\main_project\\src\\scalablemicroservices\\binlookup\\binlookup.csproj",
         "packagesPath": "C:\\Users\\billy.stack\\.nuget\\packages\\",
-        "outputPath": "C:\\D\\softarch_msc\\scalable_microservices\\main_project\\src\\binlookup\\obj\\",
+        "outputPath": "C:\\D\\softarch_msc\\scalable_microservices\\main_project\\src\\scalablemicroservices\\binlookup\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

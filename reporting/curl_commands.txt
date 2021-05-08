@@ -7,17 +7,9 @@ Main use cases
 ##############
 
 # Use case 1: Matching lookup call (201)
-
-$json = '{\"Service\":\"binlookup\",\"Activity\":\"activity1\"}'
 $json = '{\"Service\":\"binlookup\",\"Activity\":\"activity1\",\"ActivityDetail\":\"actdetail\"}'
-
-
-\"ActivityDetail\":\"act detail\"}'
-
-
-$json = '{\"MerchantId\":\"RYANAIR\",\"CardNumberBin\":407020}'
 C:\D\utilities\curl\bin\curl.exe -v -H 'Accept: application/json' -H 'Content-Type: application/json' -H "X-Request-Id: $requestId" -H "X-Correlation-Id: $correlationId" -X POST -d $json http://localhost:10002/api/logactivity
-C:\D\utilities\curl\bin\curl.exe -v -H 'Accept: application/json' -H 'Content-Type: application/json' -H "X-Request-Id: $requestId" -H "X-Correlation-Id: $correlationId" -X POST -d $json http://127.0.0.1:56352/api/logactivity
+C:\D\utilities\curl\bin\curl.exe -v -H 'Accept: application/json' -H 'Content-Type: application/json' -H "X-Request-Id: $requestId" -H "X-Correlation-Id: $correlationId" -X POST -d $json http://127.0.0.1:49158/api/logactivity
 
 
 C:\D\utilities\curl\bin\curl.exe -v -H 'Accept: application/json' -H 'Content-Type: application/json' -X GET -d http://localhost:10002/api/logactivity
@@ -65,7 +57,7 @@ minikube dashboard
 docker build -t scalable_microservices/reporting .
 kubectl create -f deployment.yml
 
-kubectl expose deployment reporting-pod --type=LoadBalancer --port=10001
+kubectl expose deployment reporting-pod --type=LoadBalancer --port=10002
 minikube service reporting-pod
 
 kubectl logs reporting-pod-67fdc796d-8llq5 reporting
