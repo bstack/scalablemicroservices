@@ -54,6 +54,7 @@ minikube docker-env | Invoke-Expression
 minikube start
 minikube dashboard
 
+cd C:\D\softarch_msc\scalable_microservices\main_project\src\scalablemicroservices\reporting
 docker build -t scalable_microservices/reporting .
 kubectl create -f deployment.yml
 
